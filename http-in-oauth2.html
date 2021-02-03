@@ -1,0 +1,134 @@
+<!--
+   Copyright 2021 Fincura, Inc.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<script type="text/javascript">
+    RED.nodes.registerType('http-in-oauth2',{
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            "auth-endpoint": {required: true},
+            "auth-app-id": {required: true},
+            "auth-app-secret": {required: true},
+            "auth-jwks-url": {required: true},
+            "callback-host": {required: true},
+            "callback-path": {value: "/oauth2/callback"},
+            "auth-authorize-path": {value: "/oauth2/authorize"},
+            "auth-token-path": {value: "/oauth2/token"},
+            "auth-scopes": {value: "openid+phone+email+profile"},
+            "auth-cookie-name": {value: "oauth_id"},
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name||"http-in-oauth2";
+        }
+    });
+</script>
+
+<script type="text/html" data-help-name="http-in-oauth2">
+    <p>An authentication method for OAuth2. Requires an HTTP In node immediately before this node.</p>
+    <p>Important: be sure that the callback url you use matches the HTTP In url. If you don't weird things could happen.</p>
+</script>
+
+<script type="text/html" data-template-name="http-in-oauth2">
+
+    <!-- The inputs below need to be in form node-input-< input name> -->
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+    <div class="form-row">
+        <p>The OAuth2 hostname to authenticate users with. Do not include a trailing slash!  For example:  https://example.com </p>
+        <label for="node-input-auth-endpoint"><i class="fa fa-tag"></i> Auth Endpoint </label>
+        <input type="text" id="node-input-auth-endpoint" placeholder="https://example.com">
+    </div>
+
+    <div class="form-row">
+        <p>The OAuth2 application/client Id to use with the OAuth provider to identify ourselves.</p>
+        <label for="node-input-auth-app-id"><i class="fa fa-tag"></i> Application ID </label>
+        <input type="text" id="node-input-auth-app-id" placeholder="uniqueid">
+    </div>
+
+    <div class="form-row">
+        <p>The OAuth2 application secret to use when receiving JWTs from the OAuth provider.</p>
+        <label for="node-input-auth-app-secret"><i class="fa fa-tag"></i> Application Secret </label>
+        <input type="text" id="node-input-auth-app-secret" placeholder="uniquesecretvalue">
+    </div>
+
+    <div class="form-row">
+        <p>The URL for the set of JSON Web Keys (JWKs) used by the OAuth2 server to sign their JWTs.  For 
+           example: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_poolid/.well-known/jwks.json  </p>
+        <label for="node-input-auth-jwks-url"><i class="fa fa-tag"></i> Auth JWKs URL </label>
+        <input type="text" id="node-input-auth-jwks-url" placeholder="https://example.com/jwks.json">
+    </div>
+
+    <div class="form-row">
+        <p>
+        The host to callback to. This will usually be the node red hostname. https:// will automatically be prepended.
+        </p>
+        <label for="node-input-callback-host"><i class="fa fa-tag"></i> Callback Host </label>
+        <input type="text" id="node-input-callback-host" placeholder="backtomyapp.example.com">
+    </div>
+
+    <div class="form-row">
+        <p>
+        The path on the callback-host to call to. Choose whichever path you'd like. Note that you will need
+        to configure <b>ONE</b> Http In node to listen on this path for the http redirects during authentication to work properly.
+        </p>
+        <label for="node-input-callback-path"><i class="fa fa-tag"></i> Callback Path </label>
+        <input type="text" id="node-input-callback-path" placeholder="/oauth2/callback">
+    </div>
+
+    <div class="form-row">
+        <p>
+        The auth2 scopes to pass to the authentication provider. Please enter a list of scopes separated by a '+' character.
+        </p>
+        <label for="node-input-callback-auth-scopes"><i class="fa fa-tag"></i> OAuth Scopes </label>
+        <input type="text" id="node-input-auth-scopes" placeholder="openid+phone+email+profile">
+    </div>
+
+     <div class="form-row">
+        <p>
+        The path on the OAuth host for the authorize endpoint used in the initial stage of the OAuth process.
+        </p>
+        <label for="node-input-auth-authorize-path"><i class="fa fa-tag"></i> OAuth Authorization Path </label>
+        <input type="text" id="node-input-auth-authorize-path" placeholder="/oauth2/authorize">
+    </div>
+
+     <div class="form-row">
+        <p>
+        The path on the OAuth host for the token endpoint used in the second stage of the OAuth process. For example:
+        '/oauth2/token'
+        </p>
+        <label for="node-input-auth-token-path"><i class="fa fa-tag"></i> OAuth Token Path </label>
+        <input type="text" id="node-input-auth-token-path" placeholder="/oauth2/token">
+    </div>
+
+     <div class="form-row">
+        <p>
+        The name of the cookie to give to the clients after they authenticate. By default is is 'oauth_id' but if you need to 
+        have multiple oauth nodes running you can use a different name to prevent overlap.
+        </p>
+        <label for="node-input-auth-cookie-name"><i class="fa fa-tag"></i> Auth Cookie Name </label>
+        <input type="text" id="node-input-auth-cookie-name" placeholder="oauth_id">
+    </div>
+
+
+</script>

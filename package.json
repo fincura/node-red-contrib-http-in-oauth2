@@ -1,0 +1,18 @@
+{
+  "name": "node-red-contrib-http-in-oauth2",
+  "version": "0.0.1",
+  "description": "An HTTP In provider for Node Red which performs an OAuth2 verification",
+  "main": "index.js",
+  "author": "Doran Smestad",
+  "license": "Apache-2.0",
+  "node-red": {
+    "nodes": {
+      "http-in-oauth2": "http-in-oauth2.js"
+    }
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "jose": "^3.5.4",
+    "simple-oauth2": "^4.2.0"
+  }
+}
