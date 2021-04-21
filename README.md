@@ -11,7 +11,7 @@ HTTP In (/)       ------>       |
 HTTP In (/oauth2/callback) -->  |
 ```
 
-The above configuration gives you the path you want to protect (/), as well as a callback URL that the OAuth provider can call back to you add (/oauth2/callback).  The OAuth2 node will use HTTP redirects (status code 302's) to send non-authenticated users over to your OAuth provider.  Once successfully authenticated, the the OAuth node will add a cookie to the user's browser allowing them to remain authenticated for the duration their OAuth token is valid. 
+The above configuration gives you the path you want to protect (/), as well as a callback URL that the OAuth provider can call back to you at (/oauth2/callback).  The OAuth2 node will use HTTP redirects (status code 302's) to send non-authenticated users over to your OAuth provider.  Once successfully authenticated, the the OAuth node will add a cookie to the user's browser allowing them to remain authenticated for the duration their OAuth token is valid. 
 
 ### Things to note:
 * A logout flow is not implemented (yet). 
