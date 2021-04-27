@@ -41,10 +41,3 @@ jobs:
         npm publish --ignore-scripts
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-    # push the version changes to GitHub
-    - run: git push
-      env:
-        # The secret is passed automatically. Nothing to configure.
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-
-
